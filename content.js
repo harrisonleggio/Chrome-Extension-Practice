@@ -27,12 +27,20 @@ chrome.runtime.onMessage.addListener(
                 console.log("Width: " + width + ' Height: ' + height);
             }
         }
-        console.log(imgSrcs);
+        //console.log(imgSrcs);
         
         //load twice as many reddit posts from the reddit api to be safe
         //i.e account for posts that don't include images...
         var redditUrl = 'https://www.reddit.com/r/pepes/hot.json?count=' + imgSrcs.length * 2;
-        console.log(redditUrl);
+        
+        var xmlHTTP = new XMLHttpRequest();
+        xmlHTTP.onreadystatechange = function() {
+            if (xmlHTTP.readyState == 4 && xmlHTTP.status == 200){
+                JSON(xmlHTTP.responseText);
+            }
+        }
+        xmlHTTP.open("GET", redditUrl, true); // true for asynchronous 
+        xmlHTTP.send(null);
     }
   }
 );
