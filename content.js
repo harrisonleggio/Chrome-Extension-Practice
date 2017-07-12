@@ -15,18 +15,24 @@ chrome.runtime.onMessage.addListener(
     if( request.message === "clicked_browser_action" ) {
         var imgs = document.getElementsByTagName("img");
         var imgSrcs = [];
-
+        //loop through images, get dimensions
+        //i don't care about super tiny images 
         for (var i = 0; i < imgs.length; i++) {
             
             var width = imgs[i].clientWidth;
             var height = imgs[i].clientHeight;
-            
+            //...and add the images if they meet requirements
             if (width > 30 && height > 30){
                 imgSrcs.push(imgs[i].src);
                 console.log("Width: " + width + ' Height: ' + height);
             }
         }
         console.log(imgSrcs);
+        
+        //load twice as many reddit posts from the reddit api to be safe
+        //i.e account for posts that don't include images...
+        var redditUrl = 'https://www.reddit.com/r/pepes/hot.json?count=' + imgSrcs.length * 2;
+        console.log(redditUrl);
     }
   }
 );
